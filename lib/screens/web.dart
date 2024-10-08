@@ -69,6 +69,7 @@ class BarcodeScanner extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            if (child != null) child!,
             SizedBox(
               height: height,
               width: width,
@@ -76,7 +77,6 @@ class BarcodeScanner extends StatelessWidget {
                 viewType: createdViewId,
               ),
             ),
-            if (child != null) child!,
           ],
         ),
       ),
