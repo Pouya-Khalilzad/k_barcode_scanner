@@ -56,9 +56,9 @@ class BarcodeScanner extends StatelessWidget {
     final origHeight = MediaQuery.of(context).size.height;
     final height;
     if (origHeight > width) {
-      height = width * (6 / 5); 
+      height = width * (7 / 5); 
     } else {
-      height = width / (21 / 9);
+      height = width / 2;
     }
     return Scaffold(
       appBar: AppBar(
