@@ -75,7 +75,7 @@ class BarcodeScanner extends StatelessWidget {
                 viewType: createdViewId,
               ),
             ),
-            if (child != null) Expanded(flex: 1, child!),
+            if (child != null) Expanded(flex: 1, child: child!),
           ],
         ),
       ),
