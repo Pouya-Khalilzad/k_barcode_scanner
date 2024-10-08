@@ -58,7 +58,7 @@ class BarcodeScanner extends StatelessWidget {
     if (origHeight > width) {
       height = width * (6 / 5); 
     } else {
-      height = width / (16 / 9);
+      height = width / (21 / 9);
     }
     return Scaffold(
       appBar: AppBar(
