@@ -62,20 +62,20 @@ class BarcodeScanner extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarTitle ?? kScanPageTitle),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(appBarTitle ?? kScanPageTitle, style: TextStyle(color: Colors.white, fontSize: 32),),
         centerTitle: centerTitle,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: height,
-              width: width,
+            Expanded(
+              flex: 2,
               child: HtmlElementView(
                 viewType: createdViewId,
               ),
             ),
-            if (child != null) child!,
+            if (child != null) Expanded(flex: 1, child!),
           ],
         ),
       ),
