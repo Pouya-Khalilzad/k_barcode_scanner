@@ -37,7 +37,7 @@ class BarcodeScanner extends StatelessWidget {
       ..src = PackageConstant.barcodeFileWebPath
       ..style.border = 'none'
       ..style.width = '100%'
-      ..style.height = '80%'
+      ..style.height = '100%'
       ..onLoad.listen((event) async {
         /// Barcode listener on success barcode scanned
         html.window.onMessage.listen((event) {
