@@ -37,7 +37,7 @@ class BarcodeScanner extends StatelessWidget {
       ..src = PackageConstant.barcodeFileWebPath
       ..style.border = 'none'
       ..style.width = '100%'
-      ..style.height = '100%'
+      ..style.height = '70%'
       ..onLoad.listen((event) async {
         /// Barcode listener on success barcode scanned
         html.window.onMessage.listen((event) {
@@ -69,13 +69,14 @@ class BarcodeScanner extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Expanded(
-              flex: 2,
+            SizedBox(
+              height: height,
+              width: width,
               child: HtmlElementView(
                 viewType: createdViewId,
               ),
             ),
-            if (child != null) Expanded(flex: 1, child: child!),
+            if (child != null) child!,
           ],
         ),
       ),
