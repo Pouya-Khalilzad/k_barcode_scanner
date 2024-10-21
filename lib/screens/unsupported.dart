@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_barcode_scanner/barcode_appbar.dart';
 import 'package:simple_barcode_scanner/enum.dart';
 
 class BarcodeScanner extends StatelessWidget {
@@ -10,6 +11,8 @@ class BarcodeScanner extends StatelessWidget {
   final String? appBarTitle;
   final bool? centerTitle;
   final Widget? child;
+  final BarcodeAppBar? barcodeAppBar;
+  final int? delayMillis;
   const BarcodeScanner(
       {super.key,
       this.lineColor = "#ff6666",
@@ -19,7 +22,9 @@ class BarcodeScanner extends StatelessWidget {
       required this.onScanned,
       this.appBarTitle,
       this.child,
-      this.centerTitle});
+      this.centerTitle,
+      this.barcodeAppBar,
+      this.delayMillis});
 
   @override
   Widget build(BuildContext context) {

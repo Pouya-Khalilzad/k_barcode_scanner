@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:simple_barcode_scanner/enum.dart';
 import 'package:simple_barcode_scanner/screens/window.dart';
+
+import '../barcode_appbar.dart';
+import '../flutter_barcode_scanner.dart';
 
 /// Barcode scanner for mobile and desktop devices
 class BarcodeScanner extends StatelessWidget {
@@ -15,6 +17,9 @@ class BarcodeScanner extends StatelessWidget {
   final String? appBarTitle;
   final bool? centerTitle;
   final Widget? child;
+  final BarcodeAppBar? barcodeAppBar;
+  final int? delayMillis;
+
   const BarcodeScanner({
     super.key,
     required this.lineColor,
@@ -25,6 +30,8 @@ class BarcodeScanner extends StatelessWidget {
     this.child,
     this.appBarTitle,
     this.centerTitle,
+    this.barcodeAppBar,
+    this.delayMillis,
   });
 
   @override
@@ -39,6 +46,7 @@ class BarcodeScanner extends StatelessWidget {
         onScanned: onScanned,
         appBarTitle: appBarTitle,
         centerTitle: centerTitle,
+        delayMillis: delayMillis,
       );
     } else {
       /// Scan Android and ios barcode scanner with flutter_barcode_scanner
@@ -66,7 +74,7 @@ class BarcodeScanner extends StatelessWidget {
         break;
     }
     String barcode = await FlutterBarcodeScanner.scanBarcode(
-        lineColor, cancelButtonText, isShowFlashIcon, scanMode);
+        lineColor, cancelButtonText, isShowFlashIcon, scanMode, delayMillis);
     onScanned(barcode);
   }
 }

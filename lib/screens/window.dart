@@ -8,6 +8,8 @@ import 'package:simple_barcode_scanner/constant.dart';
 import 'package:simple_barcode_scanner/enum.dart';
 import 'package:webview_windows/webview_windows.dart';
 
+import '../barcode_appbar.dart';
+
 class WindowBarcodeScanner extends StatelessWidget {
   final String lineColor;
   final String cancelButtonText;
@@ -16,6 +18,8 @@ class WindowBarcodeScanner extends StatelessWidget {
   final Function(String) onScanned;
   final String? appBarTitle;
   final bool? centerTitle;
+  final BarcodeAppBar? barcodeAppBar;
+  final int? delayMillis;
 
   const WindowBarcodeScanner({
     super.key,
@@ -26,6 +30,8 @@ class WindowBarcodeScanner extends StatelessWidget {
     required this.onScanned,
     this.appBarTitle,
     this.centerTitle,
+    this.barcodeAppBar,
+    this.delayMillis,
   });
 
   @override
@@ -39,18 +45,7 @@ class WindowBarcodeScanner extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(appBarTitle ?? kScanPageTitle),
-        centerTitle: centerTitle,
-        leading: IconButton(
-          onPressed: () {
-            /// send close event to web-view
-            controller.postWebMessage(json.encode({"event": "close"}));
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
-      ),
+      appBar: _buildAppBar(controller, context),
       body: FutureBuilder<bool>(
           future: initPlatformState(
             controller: controller,
@@ -154,5 +149,43 @@ class WindowBarcodeScanner extends StatelessWidget {
       rethrow;
     }
     return true;
+  }
+
+  _buildAppBar(WebviewController controller, BuildContext context) {
+    if (appBarTitle == null && barcodeAppBar == null) {
+      return null;
+    }
+    if (barcodeAppBar != null) {
+      return AppBar(
+        title: barcodeAppBar?.appBarTitle != null
+            ? Text(barcodeAppBar!.appBarTitle!)
+            : null,
+        centerTitle: barcodeAppBar?.centerTitle ?? false,
+        leading: barcodeAppBar!.enableBackButton == true
+            ? IconButton(
+                onPressed: () {
+                  /// send close event to web-view
+                  controller.postWebMessage(json.encode({"event": "close"}));
+                  Navigator.pop(context);
+                },
+                icon: barcodeAppBar?.backButtonIcon ??
+                    const Icon(Icons.arrow_back_ios),
+              )
+            : null,
+        automaticallyImplyLeading: false,
+      );
+    }
+    return AppBar(
+      title: Text(appBarTitle ?? kScanPageTitle),
+      centerTitle: centerTitle,
+      leading: IconButton(
+        onPressed: () {
+          /// send close event to web-view
+          controller.postWebMessage(json.encode({"event": "close"}));
+          Navigator.pop(context);
+        },
+        icon: const Icon(Icons.arrow_back_ios),
+      ),
+    );
   }
 }

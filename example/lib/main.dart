@@ -43,6 +43,13 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const SimpleBarcodeScannerPage(
+                        barcodeAppBar: BarcodeAppBar(
+                          appBarTitle: 'Test',
+                          centerTitle: false,
+                          enableBackButton: true,
+                          backButtonIcon: Icon(Icons.arrow_back_ios),
+                        ),
+                        delayMillis: 2000,
                         child: Column(
                           children: [
                             SizedBox(
