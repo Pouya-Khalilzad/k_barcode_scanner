@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
+import 'barcode_widget_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -39,41 +41,60 @@ class _HomePageState extends State<HomePage> {
           children: [
             ElevatedButton(
               onPressed: () async {
-                var res = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SimpleBarcodeScannerPage(
-                        barcodeAppBar: BarcodeAppBar(
-                          appBarTitle: 'Test',
-                          centerTitle: false,
-                          enableBackButton: true,
-                          backButtonIcon: Icon(Icons.arrow_back_ios),
-                        ),
-                        delayMillis: 2000,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextField(
-                              decoration: InputDecoration(
-                                labelText: 'Enter Text',
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ));
+                String? res = await SimpleBarcodeScanner.scanBarcode(
+                  context,
+                  barcodeAppBar: const BarcodeAppBar(
+                    appBarTitle: 'Test',
+                    centerTitle: false,
+                    enableBackButton: true,
+                    backButtonIcon: Icon(Icons.arrow_back_ios),
+                  ),
+                  isShowFlashIcon: true,
+                  delayMillis: 500,
+                  cameraFace: CameraFace.back,
+                  scanFormat: ScanFormat.ONLY_BARCODE,
+                );
                 setState(() {
-                  if (res is String) {
-                    result = res;
-                  }
+                  result = res as String;
                 });
               },
-              child: const Text('Open Scanner'),
+              child: const Text('Scan Barcode'),
             ),
-            Text('Barcode Result: $result'),
+            const SizedBox(
+              height: 10,
+            ),
+            Text('Scan Barcode Result: $result'),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                SimpleBarcodeScanner.streamBarcode(
+                  context,
+                  barcodeAppBar: const BarcodeAppBar(
+                    appBarTitle: 'Test',
+                    centerTitle: false,
+                    enableBackButton: true,
+                    backButtonIcon: Icon(Icons.arrow_back_ios),
+                  ),
+                  isShowFlashIcon: true,
+                  delayMillis: 2000,
+                ).listen((event) {
+                  print("Stream Barcode Result: $event");
+                });
+              },
+              child: const Text('Stream Barcode'),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const BarcodeWidgetPage();
+                  }));
+                },
+                child: const Text('Barcode Scanner Widget(Android Only)'))
           ],
         ),
       ),
